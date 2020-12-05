@@ -1,0 +1,22 @@
+insert into blogful_articles (title, date_published, content)
+values
+('dogs', now() - '21 days'::INTERVAL, 'this is an article about dogs'),
+('catss', now() - '10 days'::INTERVAL, 'this is an article about catss'),
+('fish', now() - '35 days'::INTERVAL, 'this is an article about fish'),
+('horses', now() - '1 days'::INTERVAL, 'this is an article about horses'),
+('giraffes', now(), 'this is an article about giraffes'),
+('monkies', now() - '20 days'::INTERVAL, 'this is an article about monkies'),
+('lizards', now() - '15 days'::INTERVAL, 'this is an article about lizards'),
+('elephants', now() - '20 days'::INTERVAL, 'this is an article about elephants'),
+('tigers', now() - '31 days'::INTERVAL, 'this is an article about tigers'),
+('bears', now() - '1 days'::INTERVAL, 'this is an article about bears'),
+('alligators', now() - '12 days'::INTERVAL, 'this is an article about alligators'),
+('mice', now() - '32 days'::INTERVAL, 'this is an article about mice'),
+('moose', now() - '13 days'::INTERVAL, 'this is an article about moose'),
+('penguins', now() - '12 days'::INTERVAL, 'this is an article about penguins'),
+('foxes', now() - '11 days'::INTERVAL, 'this is an article about foxes'),
+('deer', now() - '10 days'::INTERVAL, 'this is an article about deer'),
+('honey badgers', now() - '3 days'::INTERVAL, 'this is an article about honey badgers'),
+('lions', now() - '7 days'::INTERVAL, 'this is an article about lions'),
+('hippos', now() - '8 days'::INTERVAL, 'this is an article about hippos'),
+('whales', now(), 'this is an article about whales');
