@@ -7,7 +7,7 @@ describe(`Shopping list service object`, function () {
         {
             id: 1,
             name: 'apple', 
-            price: 1.00, 
+            price: '1.00', 
             category: 'Snack', 
             checked: false, 
             date_added: new Date('2020-11-22T16:28:32.615Z')
@@ -15,7 +15,7 @@ describe(`Shopping list service object`, function () {
         {
             id: 2,
             name: 'bacon', 
-            price: 4.50, 
+            price: '4.50', 
             category: 'Breakfast', 
             checked: true, 
             date_added: new Date('2020-12-01T16:28:32.615Z')
@@ -23,7 +23,7 @@ describe(`Shopping list service object`, function () {
         {
             id: 3,
             name: 'sandwich', 
-            price: 6.75, 
+            price: '6.75', 
             category: 'Lunch', 
             checked: false, 
             date_added: new Date('2020-12-02T16:28:32.615Z')
@@ -33,7 +33,7 @@ describe(`Shopping list service object`, function () {
     before(() => {
         db = knex({
             client: 'pg',
-            connection: process.env.TEST_DB_URL
+            connection: process.env.SHOPPING_TEST_DB_URL
         })
     })
 
@@ -50,9 +50,12 @@ describe(`Shopping list service object`, function () {
                 .insert(testItems)
         })
         it(`getAllItems() resolves all items from 'shopping_list' table`, () => {
-            return ShoppingListService.getAllitems(db)
+            return ShoppingListService.getAllItems(db)
                 .then(actual => {
-                    expect(actual).to.eql(testItems)
+                    expect(actual).to.eql(testItems.map(item => ({
+                                   ...item,
+                                   date_added: new Date(item.date_added)
+                                 })))
                 })
         })
         it(`getById() resolves an item by id from 'shopping_list' table`, () => {
@@ -72,8 +75,8 @@ describe(`Shopping list service object`, function () {
         })
         it(`deleteitem() removes an item by id from 'shopping_list' table`, () => {
             const itemId = 3
-            return ShoppingListService.deleteitem(db, itemId)
-                .then(() => ShoppingListService.getAllitems(db))
+            return ShoppingListService.deleteItem(db, itemId)
+                .then(() => ShoppingListService.getAllItems(db))
                 .then(allitems => {
                     const expected = testItems.filter(item => item.id !== itemId)
                     expect(allitems).to.eql(expected)
@@ -83,12 +86,12 @@ describe(`Shopping list service object`, function () {
             const idOfitemToUpdate = 3
             const newitemData = {
                 name: 'updated name',
-                price: 2.99,
+                price: '2.99',
                 category: 'Snack',
                 checked: false,
                 date_added: new Date(),
             }
-            return ShoppingListService.updateitem(db, idOfitemToUpdate, newitemData)
+            return ShoppingListService.updateItem(db, idOfitemToUpdate, newitemData)
                 .then(() => ShoppingListService.getById(db, idOfitemToUpdate))
                 .then(item => {
                     expect(item).to.eql({
@@ -101,7 +104,7 @@ describe(`Shopping list service object`, function () {
 
     context(`Given 'shopping_list' has no data`, () => {
         it(`getAllitems() resolves an empty array`, () => {
-            return ShoppingListService.getAllitems(db)
+            return ShoppingListService.getAllItems(db)
                 .then(actual => {
                     expect(actual).to.eql([])
                 })
@@ -109,12 +112,12 @@ describe(`Shopping list service object`, function () {
         it(`insertitem() inserts a new item and resolves the new item with an 'id'`, () => {
             const newitem = {
                 name: 'Test new name',
-                price: 'Test new price',
+                price: '1.99',
                 category: 'Lunch',
                 checked: false,
                 date_added: new Date('2020-01-01T00:00:00.000Z'),
             }
-            return ShoppingListService.insertitem(db, newitem)
+            return ShoppingListService.insertItem(db, newitem)
                 .then(actual => {
                     expect(actual).to.eql({
                         id: 1,
